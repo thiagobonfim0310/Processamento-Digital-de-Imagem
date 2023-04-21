@@ -57,6 +57,34 @@ def yiq_to_rgb(image_array):
     rgb_image = Image.fromarray(np.uint8(image_array))
     return rgb_image
 
+def negative_rgb(image_path): 
+   
+    # Convert image to numpy array
+    image = np.asarray(Image.open(image_path))
+    image_array = image.copy()
+
+    height, width, channel = image_array.shape
+
+    # Calculate YIQ values
+    for ly in range(0, height):
+        for lx in range(0, width):
+
+            r = image_array.item(ly, lx, 0)
+            g = image_array.item(ly, lx, 1)
+            b = image_array.item(ly, lx, 2)
+
+            Nr = 255 - r
+
+            Ng = 255 - g
+
+            Nb = 255 - b
+
+            image_array.itemset((ly, lx, 0), Nr)
+            image_array.itemset((ly, lx, 1), Ng)
+            image_array.itemset((ly, lx, 2), Nb)
+    
+    rgb_image = Image.fromarray(image_array)
+    return rgb_image
 
 image_file = "DancingInWater.jpg"
 
@@ -67,3 +95,9 @@ yiq_array = rgb_to_yiq(image_file)
 rgb_image = yiq_to_rgb(yiq_array)
 
 rgb_image.save('rgb_' + image_file)
+
+# Convert Negative RGB
+negative_image = negative_rgb(image_file)
+
+negative_image.save('negative_rgb'+ image_file)
+
