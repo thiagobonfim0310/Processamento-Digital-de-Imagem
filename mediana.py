@@ -3,7 +3,7 @@ from PIL import Image
 
 
 def median_filter(image_path, filter_dimensions):
-    #Image openning
+    # Image openning
     image = Image.open(image_path)
 
     image = image.resize((1500, 1000))    # Apply a resize for bigger images
@@ -26,8 +26,10 @@ def median_filter(image_path, filter_dimensions):
             r = []
             g = []
             b = []
-            for i in range(-filter_half_height, filter_half_height+1): # Go through height neighbors
-                for j in range(-filter_half_width, filter_half_width+1): # Go through widhth neighbors
+            # Go through height neighbors
+            for i in range(-filter_half_height, filter_half_height+1):
+                # Go through widhth neighbors
+                for j in range(-filter_half_width, filter_half_width+1):
                     # Get coordinates
                     widthNeighbor = x + j
                     heightNeighbor = y + i
@@ -49,7 +51,8 @@ def median_filter(image_path, filter_dimensions):
             median_value_b = int(np.median(b))
 
             # Aply the new values to the pixel
-            filtered_image.putpixel((x, y), (median_value_r, median_value_g, median_value_b))
+            filtered_image.putpixel(
+                (x, y), (median_value_r, median_value_g, median_value_b))
 
     return filtered_image
 
@@ -62,4 +65,4 @@ image_file = "DancingInWater.jpg"
 m = 3
 n = 3
 filtered_image = median_filter(image_file, (m, n))
-filtered_image.save('median_filter_' + image_file)
+filtered_image.save('resultados/median_filter_' + image_file)

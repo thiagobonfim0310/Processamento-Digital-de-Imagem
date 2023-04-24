@@ -4,6 +4,7 @@ import math
 
 from PIL import Image
 
+
 def ler_arquivo(txt_path):
     m = 0
     n = 0
@@ -28,15 +29,12 @@ def ler_arquivo(txt_path):
     return m, n, filter_type, filter_values
 
 
-
-
-
 def soma_filter(image_path, filter_size):
-    
+
     # offset
     offset = 50
 
-    #Image openning
+    # Image openning
     image = Image.open(image_path)
 
     image = image.resize((1500, 1000))    # Apply a resize for bigger images
@@ -59,8 +57,10 @@ def soma_filter(image_path, filter_size):
             r = []
             g = []
             b = []
-            for i in range(-filter_half_height, filter_half_height+1): # Go through height neighbors
-                for j in range(-filter_half_width, filter_half_width+1): # Go through widhth neighbors
+            # Go through height neighbors
+            for i in range(-filter_half_height, filter_half_height+1):
+                # Go through widhth neighbors
+                for j in range(-filter_half_width, filter_half_width+1):
                     # Get coordinates
                     widthNeighbor = x + j
                     heightNeighbor = y + i
@@ -78,33 +78,39 @@ def soma_filter(image_path, filter_size):
 
             # Calculate the sum for each color
             soma_value_r = int(sum(r) + offset)
-            if soma_value_r > 255: soma_value_r = 255
-            elif soma_value_r < 0: soma_value_r = 0
+            if soma_value_r > 255:
+                soma_value_r = 255
+            elif soma_value_r < 0:
+                soma_value_r = 0
 
             soma_value_g = int(sum(g) + offset)
-            if soma_value_g > 255: soma_value_g = 255
-            elif soma_value_g < 0: soma_value_g = 0
+            if soma_value_g > 255:
+                soma_value_g = 255
+            elif soma_value_g < 0:
+                soma_value_g = 0
 
             soma_value_b = int(sum(b) + offset)
-            if soma_value_b > 255: soma_value_b = 255
-            elif soma_value_b < 0: soma_value_b = 0
-
+            if soma_value_b > 255:
+                soma_value_b = 255
+            elif soma_value_b < 0:
+                soma_value_b = 0
 
             # Aply the new values to the pixel
-            filtered_image.putpixel((x, y), (soma_value_r, soma_value_g, soma_value_b))
+            filtered_image.putpixel(
+                (x, y), (soma_value_r, soma_value_g, soma_value_b))
 
     return filtered_image
 
 
 def box_filter(image_path, filter_size):
-    
+
     # offset
     offset = 10
 
     # Value of the filter
     divison = filter_size[0] * filter_size[1]
 
-    #Image openning
+    # Image openning
     image = Image.open(image_path)
 
     image = image.resize((1500, 1000))    # Apply a resize for bigger images
@@ -127,8 +133,10 @@ def box_filter(image_path, filter_size):
             r = []
             g = []
             b = []
-            for i in range(-filter_half_height, filter_half_height+1): # Go through height neighbors
-                for j in range(-filter_half_width, filter_half_width+1): # Go through widhth neighbors
+            # Go through height neighbors
+            for i in range(-filter_half_height, filter_half_height+1):
+                # Go through widhth neighbors
+                for j in range(-filter_half_width, filter_half_width+1):
                     # Get coordinates
                     widthNeighbor = x + j
                     heightNeighbor = y + i
@@ -146,34 +154,39 @@ def box_filter(image_path, filter_size):
 
             # Calculate the average for each color
             average_value_r = int((sum(r)/divison) + offset)
-            if average_value_r > 255: average_value_r = 255
-            elif average_value_r < 0: average_value_r = 0
+            if average_value_r > 255:
+                average_value_r = 255
+            elif average_value_r < 0:
+                average_value_r = 0
 
             average_value_g = int((sum(g)/divison) + offset)
-            if average_value_g > 255: average_value_g = 255
-            elif average_value_g < 0: average_value_g = 0
+            if average_value_g > 255:
+                average_value_g = 255
+            elif average_value_g < 0:
+                average_value_g = 0
 
             average_value_b = int((sum(b)/divison) + offset)
-            if average_value_b > 255: average_value_b = 255
-            elif average_value_b < 0: average_value_b = 0
-
+            if average_value_b > 255:
+                average_value_b = 255
+            elif average_value_b < 0:
+                average_value_b = 0
 
             # Aply the new values to the pixel
-            filtered_image.putpixel((x, y), (average_value_r, average_value_g, average_value_b))
+            filtered_image.putpixel(
+                (x, y), (average_value_r, average_value_g, average_value_b))
 
     return filtered_image
 
 
 def sobel_filter(image_path):
-    
-     # offset
-    offset = 0
-     # Load image
-    image = Image.open(image_path)
-    
-    #image = image.resize((1500, 1000))    # Apply a resize for bigger images
 
-    
+    # offset
+    offset = 0
+    # Load image
+    image = Image.open(image_path)
+
+    # image = image.resize((1500, 1000))    # Apply a resize for bigger images
+
     # Apply Sobel filter
     x_gradient = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
     y_gradient = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]])
@@ -192,11 +205,13 @@ def sobel_filter(image_path):
     # Loop through all pixels in the image
     for y in range(height):
         for x in range(width):
-            red = np.empty((3,3))
-            green = np.empty((3,3))
+            red = np.empty((3, 3))
+            green = np.empty((3, 3))
             blue = np.empty((3, 3))
-            for i in range(-filter_half_height, filter_half_height+1): # Go through height neighbors
-                for j in range(-filter_half_width, filter_half_width+1): # Go through widhth neighbors
+            # Go through height neighbors
+            for i in range(-filter_half_height, filter_half_height+1):
+                # Go through widhth neighbors
+                for j in range(-filter_half_width, filter_half_width+1):
                     # Get coordinates
                     widthNeighbor = x + j
                     heightNeighbor = y + i
@@ -211,9 +226,8 @@ def sobel_filter(image_path):
                         red[i][j] = img_array[heightNeighbor, widthNeighbor, 0]
                         green[i][j] = img_array[heightNeighbor, widthNeighbor, 1]
                         blue[i][j] = img_array[heightNeighbor, widthNeighbor, 2]
-            
+
             # Calculate the gradient in the x and y directions
-        
 
             gx_r = np.sum(x_gradient * red)
             gx_g = np.sum(x_gradient * green)
@@ -222,32 +236,36 @@ def sobel_filter(image_path):
             gy_g = np.sum(y_gradient * green)
             gy_b = np.sum(y_gradient * blue)
 
-            
-
             # Combine the x and y gradients to get the final result
-            gradient_magnitude_r = int(np.sqrt(gx_r**2 + gy_r**2)) +offset
-            if gradient_magnitude_r > 255: gradient_magnitude_r = 255
-            elif gradient_magnitude_r < 0: gradient_magnitude_r = 0
-            gradient_magnitude_g = int(np.sqrt(gx_g**2 + gy_g**2)) +offset
-            if gradient_magnitude_g > 255: gradient_magnitude_g = 255
-            elif gradient_magnitude_g < 0: gradient_magnitude_g = 0
-            gradient_magnitude_b = int(np.sqrt(gx_b**2 + gy_b**2)) +offset
-            if gradient_magnitude_b > 255: gradient_magnitude_b = 255
-            elif gradient_magnitude_b < 0: gradient_magnitude_b = 0
+            gradient_magnitude_r = int(np.sqrt(gx_r**2 + gy_r**2)) + offset
+            if gradient_magnitude_r > 255:
+                gradient_magnitude_r = 255
+            elif gradient_magnitude_r < 0:
+                gradient_magnitude_r = 0
+            gradient_magnitude_g = int(np.sqrt(gx_g**2 + gy_g**2)) + offset
+            if gradient_magnitude_g > 255:
+                gradient_magnitude_g = 255
+            elif gradient_magnitude_g < 0:
+                gradient_magnitude_g = 0
+            gradient_magnitude_b = int(np.sqrt(gx_b**2 + gy_b**2)) + offset
+            if gradient_magnitude_b > 255:
+                gradient_magnitude_b = 255
+            elif gradient_magnitude_b < 0:
+                gradient_magnitude_b = 0
 
             # Set the pixel value in the filtered image
-            filtered_image.putpixel((x, y), (gradient_magnitude_r , gradient_magnitude_g , gradient_magnitude_b ))
+            filtered_image.putpixel(
+                (x, y), (gradient_magnitude_r, gradient_magnitude_g, gradient_magnitude_b))
 
     return filtered_image
 
 
-
 def emboss_filter(image_path, filter_size, filter_values):
-    
+
     # offset
     offset = 0
 
-    #Image openning
+    # Image openning
     image = Image.open(image_path)
 
     image = image.resize((1500, 1000))    # Apply a resize for bigger images
@@ -275,7 +293,8 @@ def emboss_filter(image_path, filter_size, filter_values):
             g = []
             b = []
             cont1 = 0
-            for i in range(-filter_half_height, filter_half_height+1): # Go through height neighbors
+            # Go through height neighbors
+            for i in range(-filter_half_height, filter_half_height+1):
                 if filter_size[0] % 2 == 0 and i == filter_half_height:
                     if cont1 == 0:
                         cont1 = 1
@@ -283,7 +302,8 @@ def emboss_filter(image_path, filter_size, filter_values):
                     else:
                         break
                 cont2 = 0
-                for j in range(-filter_half_width, filter_half_width+1): # Go through width neighbors
+                # Go through width neighbors
+                for j in range(-filter_half_width, filter_half_width+1):
                     if filter_size[1] % 2 == 0 and j == filter_half_width:
                         if cont2 == 0:
                             cont2 = 1
@@ -311,23 +331,28 @@ def emboss_filter(image_path, filter_size, filter_values):
             average_value_r = abs((sum(np.multiply(r, filter_values))))
             average_value_g = abs((sum(np.multiply(g, filter_values))))
             average_value_b = abs((sum(np.multiply(b, filter_values))))
-            
 
             average_value_r = int(average_value_r + offset)
-            if average_value_r > 255: average_value_r = 255
-            elif average_value_r < 0: average_value_r = 0
+            if average_value_r > 255:
+                average_value_r = 255
+            elif average_value_r < 0:
+                average_value_r = 0
 
             average_value_g = int(average_value_g + offset)
-            if average_value_g > 255: average_value_g = 255
-            elif average_value_g < 0: average_value_g = 0
+            if average_value_g > 255:
+                average_value_g = 255
+            elif average_value_g < 0:
+                average_value_g = 0
 
             average_value_b = int(average_value_b + offset)
-            if average_value_b > 255: average_value_b = 255
-            elif average_value_b < 0: average_value_b = 0
-
+            if average_value_b > 255:
+                average_value_b = 255
+            elif average_value_b < 0:
+                average_value_b = 0
 
             # Aply the new values to the pixel
-            filtered_image.putpixel((x, y), (average_value_r, average_value_g, average_value_b))
+            filtered_image.putpixel(
+                (x, y), (average_value_r, average_value_g, average_value_b))
 
     return filtered_image
 
@@ -344,22 +369,22 @@ m, n, filter_type, filter_values = ler_arquivo("input.txt")
 if filter_type == 'soma':
 
     filtered_image = soma_filter(image_file, (m, n))
-    filtered_image.save('soma_filter' + image_file)
+    filtered_image.save('resultados/soma_filter' + image_file)
 
 # Apply box filter
 
 if filter_type == 'box':
 
     filtered_image = box_filter(image_file, (m, n))
-    filtered_image.save('box_filter' + image_file)
+    filtered_image.save('resultados/box_filter' + image_file)
 
 # Apply sobel filter
 if filter_type == 'sobel':
 
     filtered_image = sobel_filter(image_file)
-    filtered_image.save('sobel_filter' + image_file)
+    filtered_image.save('resultados/sobel_filter' + image_file)
 
 
 if filter_type == 'emboss':
     filtered_image = emboss_filter(image_file, (m, n), filter_values)
-    filtered_image.save('emboss_filter' + image_file)
+    filtered_image.save('resultados/emboss_filter' + image_file)

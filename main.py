@@ -57,8 +57,9 @@ def yiq_to_rgb(image_array):
     rgb_image = Image.fromarray(np.uint8(image_array))
     return rgb_image
 
-def negative_rgb(image_path): 
-   
+
+def negative_rgb(image_path):
+
     # Convert image to numpy array
     image = np.asarray(Image.open(image_path))
     image_array = image.copy()
@@ -82,11 +83,12 @@ def negative_rgb(image_path):
             image_array.itemset((ly, lx, 0), Nr)
             image_array.itemset((ly, lx, 1), Ng)
             image_array.itemset((ly, lx, 2), Nb)
-    
+
     rgb_image = Image.fromarray(image_array)
     return rgb_image
 
-def negative_yiq(image_path): 
+
+def negative_yiq(image_path):
     # Open image
     image = Image.open(image_path)
 
@@ -125,12 +127,12 @@ yiq_array = rgb_to_yiq(image_file)
 # Convert YIQ to RGB
 rgb_image = yiq_to_rgb(yiq_array)
 
-rgb_image.save('rgb_' + image_file)
+rgb_image.save('resultados/rgb_' + image_file)
 
 # Convert Negative RGB
 negative_image_rgb = negative_rgb(image_file)
 
-negative_image_rgb.save('negative_rgb_'+ image_file)
+negative_image_rgb.save('resultados/negative_rgb_' + image_file)
 
 # Convert Negative YIQ
 
@@ -138,4 +140,4 @@ negative_image_yiq_array = negative_yiq(image_file)
 negative_y = yiq_to_rgb(negative_image_yiq_array)
 
 
-negative_y.save('negative_yiq_'+ image_file)
+negative_y.save('resultados/negative_yiq_' + image_file)
